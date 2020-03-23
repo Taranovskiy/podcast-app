@@ -1,14 +1,16 @@
 import { Question } from './question';
-import { isValid } from './utils';
+import { isValid, createModal } from './utils';
 import './styles.css';
 
 const form = document.getElementById('form');
 const input = form.querySelector('#question-input');
 const submitBtn = form.querySelector('#submit');
+const modalBtn = document.getElementById('modal-btn');
 
 window.addEventListener('load', Question.renderList);
 form.addEventListener('submit', submitFormHandler);
 input.addEventListener('input', inputHandler);
+modalBtn.addEventListener('click', openModal);
 
 function submitFormHandler(event) {
   event.preventDefault();
@@ -31,4 +33,8 @@ function submitFormHandler(event) {
 
 function inputHandler() {
   submitBtn.disabled = !isValid(input.value);
+}
+
+function openModal() {
+  createModal('Авторизация', '<h1>Test</h1>');
 }
