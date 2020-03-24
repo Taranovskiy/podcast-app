@@ -1,5 +1,6 @@
 import { Question } from './question';
 import { isValid, createModal } from './utils';
+import { getAuthForm, authWidthEmailAndPassword } from './auth';
 import './styles.css';
 
 const form = document.getElementById('form');
@@ -36,5 +37,26 @@ function inputHandler() {
 }
 
 function openModal() {
-  createModal('Авторизация', '<h1>Test</h1>');
+  createModal('Авторизация', getAuthForm());
+  document
+    .getElementById('auth-form')
+    .addEventListener('submit', authFormHandler, {once: true})
+}
+
+function authFormHandler(evt) {
+  evt.preventDefault();
+ 
+  const btn = evt.target.querySelector('button')
+  const email = evt.target.querySelector('#email').value;
+  const password = evt.target.querySelector('#password').value;
+
+  btn.disabled = true;
+  authWidthEmailAndPassword(email, password)
+    .then(Question.fetch)
+    .then(renderModalAfterAuth)
+    .then(() => btn.disabled = false)
+}
+
+function renderModalAfterAuth(content) {
+  console.log('content -->', content);  
 }
