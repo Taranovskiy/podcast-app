@@ -34,7 +34,7 @@ export class Question {
     return fetch(`https://podcast-app-fd2e1.firebaseio.com/questions.json?auth=${token}`)
       .then(resp => resp.json())
       .then(data => {
-        if (data.error) {
+        if (data && data.error) {
           return `<p class="error">${data.error}</p>`
         }
 
@@ -45,6 +45,12 @@ export class Question {
           }))
           : [];
       })
+  }
+
+  static listToHTML(questions) {
+    return questions.length
+      ? `<ol>${questions.map(item => `<li>${item.text}</li>`).join('')}</ol>`
+      : 'Вопросов пока нет';
   }
 };
 
